@@ -1,10 +1,10 @@
-const { CityService } = require("../services/index.js");
-
+const { CityService } = require("../services/index");
 const cityService = new CityService();
-
 const create = async (req, res) => {
   try {
+    //console.log(req.body);
     const city = await cityService.createCity(req.body);
+
     return res.status(201).json({
       data: city,
       success: true,
@@ -24,6 +24,7 @@ const create = async (req, res) => {
 const destroy = async (req, res) => {
   try {
     const response = await cityService.deleteCity(req.params.id);
+    console.log(req.params.id);
     return res.status(200).json({
       data: response,
       success: true,
@@ -46,7 +47,7 @@ const get = async (req, res) => {
     return res.status(200).json({
       data: city,
       success: true,
-      message: "Succesfully deleted the city",
+      message: "Succesfully get the city",
       err: {},
     });
   } catch (error) {
@@ -77,4 +78,11 @@ const update = async (req, res) => {
       err: error,
     });
   }
+};
+
+module.exports = {
+  create,
+  destroy,
+  get,
+  update,
 };

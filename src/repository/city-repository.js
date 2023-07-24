@@ -10,10 +10,10 @@ class CityRepository {
       throw error;
     }
   }
-  async updateCity({ cityName, cityId }) {
+  async updateCity(cityName, cityId) {
     try {
       const city = await City.update(
-        { name: cityName },
+        { name: cityName.name },
         { where: { id: cityId } }
       );
       return city;
@@ -22,7 +22,7 @@ class CityRepository {
       throw error;
     }
   }
-  async deleteCity({ cityId }) {
+  async deleteCity(cityId) {
     try {
       const city = await City.destroy({
         //custome object key is where and another object
@@ -48,6 +48,4 @@ class CityRepository {
   }
 }
 
-module.exports = {
-  CityRepository,
-};
+module.exports = CityRepository;
