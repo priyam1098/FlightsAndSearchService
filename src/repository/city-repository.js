@@ -12,11 +12,14 @@ class CityRepository {
   }
   async updateCity(cityName, cityId) {
     try {
-      const city = await City.update(
-        { name: cityName.name },
-        { where: { id: cityId } }
-      );
-      return city;
+      // const city = await City.update(
+      //   { name: cityName.name },
+      //   { where: { id: cityId } }
+      // );
+      const city = await City.findByPk(cityId);
+      city.name = cityName.name;
+      await city.save();
+      return city.name;
     } catch (error) {
       console.log("Something went wrong at repo layer");
       throw error;
