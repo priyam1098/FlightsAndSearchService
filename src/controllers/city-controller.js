@@ -43,7 +43,19 @@ const destroy = async (req, res) => {
 };
 const get = async (req, res) => {
   try {
-    const city = await cityService.getCity(req.params.id);
+    const city = await cityService.getCity(req.params.id, req.url);
+    const url = req.url;
+    const parts = url.split("/"); // Split the URL by "/"
+
+    const airport = parts[2];
+    if (airport == "airport" && req.params.id) {
+      return res.status(200).json({
+        data: city,
+        success: true,
+        message: "Succesfully fetched all the airport of city",
+        err: {},
+      });
+    }
     return res.status(200).json({
       data: city,
       success: true,

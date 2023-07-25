@@ -1,9 +1,13 @@
 const { City } = require("../models/index");
 const { Op } = require("sequelize");
 class CityRepository {
-  async createCity({ name }) {
+  async createCity(data) {
     try {
-      const city = await City.create({ name });
+      if (Array.isArray(data)) {
+        const city = await City.bulkCreate(data, { returning: true });
+        return city;
+      }
+      const city = await City.create({ name: data.name });
       return city;
     } catch (error) {
       console.log("Something went wrong at repo layer");
@@ -39,8 +43,20 @@ class CityRepository {
       throw error;
     }
   }
-  async getCity(cityId) {
+  async getCity(cityId, url) {
     try {
+      const parts = url.split("/"); // Split the URL by "/"
+      const airport = parts[2]; // The "airport" segment is at index 5
+      if (airport == "airport" && cityId) {
+        const city = await City.findOne({
+          where: {
+            id: cityId,
+          },
+        });
+        const airports = await city.getAirports();
+        return airports;
+      }
+
       const city = await City.findByPk(cityId);
       console.log(city);
       return city;

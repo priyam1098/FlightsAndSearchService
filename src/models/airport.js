@@ -1,6 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-const { Cast } = require("sequelize/types/utils");
+//const { Cast } = require("sequelize/types/utils");
 module.exports = (sequelize, DataTypes) => {
   class Airport extends Model {
     /**
